@@ -19,9 +19,9 @@ def setDCTPictures():
             L = logisticPic(Y)
             # 对系数矩阵Ｌ（ｉ，ｊ）做ＩＤＣＴ变换即可得到加密后的人脸图像Ｅ（ｉ，ｊ）
             L = cv2.idct(L)
-            L = np.asarray(L).astype(float)
+            # L = np.asarray(L).astype(float)
             cv2.imwrite(save_dir + '\\' + str(i) + '_' + str(j) + '.pgm', L)
-            getPromotionmatrix(L)
+           # getPromotionmatrix(L)
             j = j + 1
         i = i + 1
 
@@ -42,7 +42,7 @@ def logisticPic(pic):
         if xi[i] >= 0.5:
             temp = 1
         else:
-            temp = 0
+            temp = -1
         sign.append(temp)
     sign = np.array(sign).reshape(112, 92)
     # 频域系数矩阵Ｆ（ｉ，ｊ）与二值加密矩阵ｓｉｇｎ（ｘ）做点乘得到系数矩阵Ｌ（ｉｊ）
