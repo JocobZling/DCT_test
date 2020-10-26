@@ -13,15 +13,20 @@ def setDCTPictures():
         while j <= 10:
             normalPic_dir = base_dir + '\\s' + str(i) + '\\' + str(j) + '.pgm'
             y = cv2.imread(normalPic_dir, 0)
-            y1 = y.astype(np.float32)
+            y1 = np.float32(y)
             Y = cv2.dct(y1)
             # 进行logistic混沌->再将图片存起来
             L = logisticPic(Y)
             # 对系数矩阵Ｌ（ｉ，ｊ）做ＩＤＣＴ变换即可得到加密后的人脸图像Ｅ（ｉ，ｊ）
             L = cv2.idct(L)
-            # L = np.asarray(L).astype(float)
-            cv2.imwrite(save_dir + '\\' + str(i) + '_' + str(j) + '.pgm', L)
-           # getPromotionmatrix(L)
+            L = np.asarray(L).astype(np.uint8)
+            # 解密way：同样的系数对原来的图片再加密一次
+            # N = cv2.dct(L)
+            # N = logisticPic(N)
+            # N = cv2.idct(N)
+            # N = np.asarray(N).astype(np.uint8)
+            cv2.imwrite(save_dir + '\\' + str(i) + '_' + str(j) + '.png', L)
+            getPromotionmatrix(L)
             j = j + 1
         i = i + 1
 
